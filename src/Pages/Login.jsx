@@ -4,6 +4,9 @@ import styled from "styled-components";
 import StatusBar from "../components/StatusBar";
 import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { getCookie, setCookie } from "../cookie";
+import { jwtDecode } from "jwt-decode";
 
 const Wrapper = styled.div`
   margin-top: 90px;
@@ -89,7 +92,7 @@ const SvgVars = {
   end: { fill: "rgba(255,255,255,1)", pathLength: 1 },
 };
 
-const Signup = () => {
+const Login = () => {
   const [showStartScreen, setShowStartScreen] = useState(true);
   const hideStartScreen = () => {
     setShowStartScreen(false);
@@ -99,7 +102,16 @@ const Signup = () => {
   const navigate = useNavigate();
   const onValid = (data) => {
     console.log(data);
-    navigate("/list");
+    axios.post(`http://127.0.0.1:4845/`, data).then((res) => {
+      if (res.data.result) {
+        setCookie("auth_lupin", res.data.token);
+        const userId = jwtDecode(res.data.token);
+        localStorage.setItem("info", JSON.stringify(userId));
+        navigate("/list");
+      } else {
+        alert("올바르지 않은 회원정보입니다.");
+      }
+    });
   };
 
   return (
@@ -141,7 +153,7 @@ const Signup = () => {
             If you have a LupinTalk account, log in with your id or Secret code.
           </p>
         </Title>
-        <From onSubmit={handleSubmit(onValid)} action="/login" method="post">
+        <From onSubmit={handleSubmit(onValid)} action="/" method="post">
           <fieldset>
             <input
               {...register("id", { required: true })}
@@ -167,4 +179,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

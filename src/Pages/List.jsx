@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import User from "../components/User";
 import Header from "../components/Header";
+import { getUser } from "../userinfo";
+import axios from "axios";
 
 const Info = styled.div`
   text-align: center;
@@ -41,6 +43,11 @@ const Wrapper = styled.div`
 `;
 
 const List = () => {
+  const [list, setList] = useState();
+  axios
+    .get(`http://127.0.0.1:4845/list`)
+    .then((res) => setList(res.data))
+    .catch((err) => console.log(err));
   return (
     <Wrapper>
       <Header />
@@ -55,16 +62,12 @@ const List = () => {
           Frineds' Name Display
         </Link>
       </Info>
-      <User />
-      <UserList>접속중인 유저</UserList>
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
-      <User size="s" />
+      <User name="개발자 박씨" sayHi="날씨가 춥네요" />
+      <UserList>가입유저목록</UserList>
+      {list?.map((v) => (
+        <User size="s" name={v.uid} sayHi={v.sayhi} />
+      ))}
+
       <Navbar></Navbar>
     </Wrapper>
   );

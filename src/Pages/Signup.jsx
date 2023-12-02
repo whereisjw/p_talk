@@ -53,14 +53,25 @@ const Signup = () => {
     setValue,
   } = useForm();
   const onValid = (data) => {
-    console.log(data);
-    setValue("id", "");
-    setValue("pass", "");
-    setValue("name", "");
+    if (data.pass !== data.pass2) {
+      alert("비밀번호가 일치하지 않습니다");
+      setValue("pass2", "");
+      return;
+    }
+
     axios
       .post(`http://127.0.0.1:4845/signup`, data)
-      .then((res) => alert("회원가입 완료"));
-    navigate("/");
+      .then((res) => {
+        setValue("id", "");
+        setValue("pass", "");
+        setValue("pass2", "");
+        setValue("sayhi", "");
+        alert("회원가입 완료");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -82,13 +93,23 @@ const Signup = () => {
         />
         {errors.pass && setValue("pass", "")}
         <input
-          className={errors.name && "active"}
-          {...register("name", { required: true, maxLength: 4 })}
-          type="text"
-          placeholder="4자리 이내 닉네임을 입력해주세요"
+          className={errors.pass2 && "active"}
+          {...register("pass2", {
+            required: true,
+            minLength: 4,
+            maxLength: 12,
+          })}
+          type="password"
+          placeholder="4-12자리 비밀번호를 입력해주세요"
         />
-        {errors.name && setValue("name", "")}
-        <input type="file" placeholder="4자리 이내 닉네임을 입력해주세요" />
+        <input
+          className={errors.sayhi && "active"}
+          {...register("sayhi", { required: true, maxLength: 10 })}
+          type="text"
+          placeholder="10자리 이내 인사말을 입력해주세요"
+        />
+        {errors.sayhi && setValue("sayhi", "")}
+
         <input type="submit" value="Sign Up" />
 
         <Link to="/">로그인 페이지로 가기</Link>
