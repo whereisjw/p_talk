@@ -91,7 +91,9 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link
+              to="/weather"
+              className={useMatch("/weather") ? "active" : null}>
               <WeatherSvg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
@@ -102,7 +104,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link to="/Img">
               <MoreSvg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"

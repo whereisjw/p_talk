@@ -53,6 +53,9 @@ const From = styled.form`
     }
     input[type="submit"],
     input[type="button"] {
+      &:hover {
+        color: var(--bg);
+      }
       background-color: var(--accent);
       cursor: pointer;
       padding: 20px 0;
@@ -89,7 +92,15 @@ const SvgLogo = styled(motion.svg)`
 
 const SvgVars = {
   start: { fill: "rgba(255,255,255,0)", pathLength: 0.1 },
-  end: { fill: "rgba(255,255,255,1)", pathLength: 1 },
+  end: {
+    fill: [
+      "rgba(255,255,255,0)",
+      "rgba(123, 25, 255, 1)",
+      "rgba(25, 13, 156, 1)",
+      "rgba(255, 255, 255, 1)",
+    ],
+    pathLength: 1,
+  },
 };
 
 const Login = () => {
@@ -148,10 +159,8 @@ const Login = () => {
       </AnimatePresence>
       <Wrapper>
         <Title>
-          <h1>Welcome to LupinTalk</h1>
-          <p>
-            If you have a LupinTalk account, log in with your id or Secret code.
-          </p>
+          <h1>고양톡에 오신걸 환영합니다.</h1>
+          <p>아이디가 있으시면 로그인을, 없으시다면 회원가입을 진행해 주세요</p>
         </Title>
         <From onSubmit={handleSubmit(onValid)} action="/" method="post">
           <fieldset>

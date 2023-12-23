@@ -12,12 +12,22 @@ const Wrapper = styled.header`
   h1 {
     font-size: 28px;
     font-weight: 600;
+    @media screen and (max-width: 768px) {
+      font-size: 20px;
+    }
   }
   span {
     margin-left: 20px;
   }
+
   svg {
     scale: 1.2;
+    cursor: pointer;
+    &.hidden {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
   }
 `;
 
@@ -37,6 +47,7 @@ const Header = () => {
       <div className="header_title">
         <span>
           <svg
+            className="hidden"
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
             viewBox="0 0 512 512">
@@ -45,6 +56,7 @@ const Header = () => {
         </span>
         <span>
           <svg
+            className="hidden"
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
             viewBox="0 0 512 512">

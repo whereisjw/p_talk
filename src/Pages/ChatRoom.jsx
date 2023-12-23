@@ -29,6 +29,11 @@ const InnerWrapper = styled.header`
   width: 100%;
   box-sizing: border-box;
 
+  margin-top: 20px;
+  .header_title:hover svg {
+    transform: rotate(45deg);
+    scale: 2;
+  }
   h1 {
     font-size: 28px;
     font-weight: 600;
@@ -133,24 +138,48 @@ const Form = styled.div`
     border-radius: 20px;
   }
 `;
+const Enter = styled(motion.div)`
+  width: 100%;
+  background-color: var(--accent);
+  padding: 7px 10px;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  text-align: center;
+`;
 const socket = io();
 socket.emit("ask-join", "1");
 const ChatRoom = () => {
   const userInfo = getUser();
   const [update, setUpdate] = useState();
   const [down, setDown] = useState([]);
+  const [enter, setEnter] = useState([]);
   useEffect(() => {
-    socket.emit("message", { id: userInfo.id, msg: update });
+    socket.emit("enter", `${userInfo.id}님이 입장하셨습니다`);
+    socket.on("예쪽", (data) => {
+      setEnter((prev) => {
+        if (enter.includes(data)) return;
+        return [...prev, data];
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.emit("message", {
+      id: userInfo.id,
+      msg: update,
+      time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+    });
   }, [update]);
-  socket.on("broadcast", (data) => {
-    console.log(data, "서버에서받은");
-    setDown([...down, data]);
-  });
+  useEffect(() => {
+    socket.on("broadcast", (data) => {
+      console.log(data, "서버에서받은");
+      setDown([...down, data]);
+    });
+  }, [down]);
 
   const onValid = (data) => {
-    setValue("msg", "");
     setUpdate(data.msg);
-
+    setValue("msg", "");
     console.log(update, "update");
   };
   console.log(down);
@@ -162,26 +191,63 @@ const ChatRoom = () => {
     setValue,
   } = useForm();
 
+  const EnterVars = {
+    start: {
+      opacity: 1,
+      scale: 5,
+      y: -100,
+      color: "rgba(255, 15, 100, 1)",
+      background: "rgba(255,255,100,0.8)",
+    },
+    end: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      color: "rgba(255,255,255,1)",
+      background: "rgba(80, 138, 210, 1)",
+      transition: {
+        /*  repeat: Infinity, */
+        duration: 2,
+        type: "spring",
+        damping: 6,
+      },
+    },
+  };
+
+  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  console.log(down, "enter");
   return (
     <Wrapper>
       <StatusBar />
       <InnerWrapper>
         <motion.h1>
-          <IoArrowBack onClick={() => navigate(-1)} />
+          <IoArrowBack onClick={() => navigate("/chat")} />1212
         </motion.h1>
         <div className="header_title">
           <span>
             <svg
+              onClick={() => navigate(window.location.reload())}
               xmlns="http://www.w3.org/2000/svg"
-              height="1em"
+              height="16"
+              width="16"
               viewBox="0 0 512 512">
-              <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+              <path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
             </svg>
           </span>
         </div>
       </InnerWrapper>
       <Main>
-        <div className="time">Tuesday, June 30, 2020</div>
+        <div className="time">
+          {days[new Date().getDay()]}, {new Date().getMonth() + 1}월{" "}
+          {new Date().getDate()}, {new Date().getFullYear()}
+        </div>
+        {enter
+          ? enter.map((v) => (
+              <Enter variants={EnterVars} initial="start" animate="end">
+                {v}
+              </Enter>
+            ))
+          : null}
 
         {down.map((v, i) =>
           v.id === userInfo.id ? (
@@ -193,9 +259,9 @@ const ChatRoom = () => {
                       borderTopRightRadius: "0",
                       borderTopLeftRadius: "10px",
                     }}>
-                    {v.msg && v.msg}
+                    {v?.msg === null ? null : v.msg}
                   </span>
-                  <span>21:27</span>
+                  <span>{v?.time}</span>
                 </div>
               </div>
             </MessageRow>
@@ -205,8 +271,8 @@ const ChatRoom = () => {
               <div className="message_content">
                 <span className="message_author">{v.id}</span>
                 <div className="message_payload">
-                  <span>{v?.msg}</span>
-                  <span>21:27</span>
+                  <span>{v.msg === "" ? null : v.msg}</span>
+                  <span>{v?.time}</span>
                 </div>
               </div>
             </MessageRow>
@@ -228,7 +294,7 @@ const ChatRoom = () => {
           <form onSubmit={handleSubmit(onValid)}>
             <input
               type="text"
-              {...register("msg")}
+              {...register("msg", { minLength: 1 })}
               placeholder="Write amessage..."
             />{" "}
           </form>
