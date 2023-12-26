@@ -65,7 +65,7 @@ const List = () => {
       <User name="개발자 박씨" sayHi="날씨가 춥네요" />
       <UserList>가입유저목록</UserList>
       {list?.map((v) => (
-        <User size="s" name={v.uid} sayHi={v.sayhi} />
+        <User size="s" img={v.img} name={v.uid} sayHi={v.sayhi} />
       ))}
 
       <Navbar></Navbar>

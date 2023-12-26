@@ -182,7 +182,6 @@ const ChatRoom = () => {
     setValue("msg", "");
     console.log(update, "update");
   };
-  console.log(down);
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -221,7 +220,8 @@ const ChatRoom = () => {
       <StatusBar />
       <InnerWrapper>
         <motion.h1>
-          <IoArrowBack onClick={() => navigate("/chat")} />1212
+          <IoArrowBack onClick={() => navigate("/chat")} />
+          1212
         </motion.h1>
         <div className="header_title">
           <span>
