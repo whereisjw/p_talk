@@ -180,7 +180,7 @@ const Login = () => {
               type="Button"
               value="Sign Up"
             />
-            <Link to="/">Find Lupin Account or Password</Link>
+            <Link to="/">채팅 예절을 지켜주세요</Link>
           </fieldset>
         </From>
       </Wrapper>

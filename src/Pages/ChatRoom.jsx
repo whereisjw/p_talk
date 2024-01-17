@@ -221,7 +221,6 @@ const ChatRoom = () => {
       <InnerWrapper>
         <motion.h1>
           <IoArrowBack onClick={() => navigate("/chat")} />
-          1212
         </motion.h1>
         <div className="header_title">
           <span>
@@ -238,7 +237,7 @@ const ChatRoom = () => {
       </InnerWrapper>
       <Main>
         <div className="time">
-          {days[new Date().getDay()]}, {new Date().getMonth() + 1}월{" "}
+          {days[new Date().getDay()]}, {new Date().getMonth() + 1}월
           {new Date().getDate()}, {new Date().getFullYear()}
         </div>
         {enter

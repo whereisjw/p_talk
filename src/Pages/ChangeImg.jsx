@@ -63,7 +63,7 @@ const ChangeImg = () => {
     if (click === null) return false;
     axios
       .post(`http://127.0.0.1:4845/img`, { id: userinfo.id, img: click })
-      .then((res) => res)
+      .then((res) => alert("대표이미지 변경완료"))
       .catch((err) => console.log(err));
   };
   return (
