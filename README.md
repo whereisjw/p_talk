@@ -1,6 +1,8 @@
 # 캣카오톡
-🔗 서버레파지토리 링크
+### 🔗 서버레파지토리 링크
 https://github.com/whereisjw/p_talk_server.git
+### 상세기술은 아래 노션 링크를 참조해주세요
+https://lively-relative-5c2.notion.site/b8c3313dbfd9408bb2e0dfafa881010e?pvs=4
 
 
 ## 📌 Summary
