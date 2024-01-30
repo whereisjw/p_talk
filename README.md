@@ -18,7 +18,6 @@ HTML,CSS로 코딩입문시 만들었던 카카오톡 클론 웹사이트를 rea
     - FE : Reactjs, Styled-components, Framer-motion
     - BE : Nodejs, Socket.io, Mysql(mongodb로 전환예정)
         
-        ![KakaoTalk_20240129_152308130_01.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/78150325-8f44-4b57-8597-f5ab09285f8c/27c6a30d-4625-41db-bc11-207dfac73c8b/KakaoTalk_20240129_152308130_01.webp)
         
 
 ---
