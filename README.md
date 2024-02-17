@@ -3,7 +3,6 @@
 ![20240218_024454](https://github.com/whereisjw/p_talk/assets/139869491/bff08af4-3b11-4b7e-b041-843101bede9e)
  
 - 🔗 서버레파지토리 링크 : https://github.com/whereisjw/p_talk_server.git
-- 🔗 노션 링크 : https://lively-relative-5c2.notion.site/b8c3313dbfd9408bb2e0dfafa881010e?pvs=4
 
 
 ## 😺 프로젝트 소개
